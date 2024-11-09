@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net8.0</TargetFrameworks>
+    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="CtsPool.fs" />
+    <Compile Include="InternalCtsPool.fs" />
+    <Compile Include="Helpers.fs" />
+    <Compile Include="Operation.fs" />
+    <Compile Include="AsyncOperation.fs" />
+    <Compile Include="Deferred.fs" />
+    <Compile Include="PreparingDeferred.fs" />
+    <Compile Include="AsyncDeferredState.fs" />
+    <Compile Include="AsyncDeferred.fs" />
+    <Compile Include="AsyncPreparingDeferred.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="$(AssemblyName).Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Elmish" Version="4.2.0" />
+    <PackageReference Include="System.Buffers" Version="4.5.1" />
+  </ItemGroup>
+</Project>
