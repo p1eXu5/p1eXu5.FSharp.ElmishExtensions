@@ -22,7 +22,7 @@ module AsyncPreparingDeferred =
             // CancellationTokenSource is disposed in a Program module,
             // using LastInProgressWithCancellation active pattern below
             // last cts reference contains AsyncOperation Finish message
-            cts.Cancel()
+            cts.Dispose()
             let newCts = ctsPool.GetCts ()
             (AsyncPreparingDeferred.InProgress (p, newCts), p, newCts) |> Some
         | AsyncPreparingDeferred.Preparing p ->
@@ -32,7 +32,7 @@ module AsyncPreparingDeferred =
             None
 
     /// If asyncDeferred is InProgress then cancels it.
-    let forceInProgressWithCancellation<'Preparing, 'Retrieved>
+    let forceInProgressWithCancellationf<'Preparing, 'Retrieved>
         (preparingf: 'Retrieved -> 'Preparing)
         (asyncDeferred: AsyncPreparingDeferred<'Preparing, 'Retrieved>)
         : (AsyncPreparingDeferred<'Preparing, 'Retrieved> * 'Preparing * Cts)
@@ -43,7 +43,7 @@ module AsyncPreparingDeferred =
             // CancellationTokenSource is disposed in a Program module,
             // using LastInProgressWithCancellation active pattern below
             // last cts reference contains AsyncOperation Finish message
-            cts.Cancel()
+            cts.Dispose()
             (AsyncPreparingDeferred.InProgress (p, newCts), p, newCts)
         | AsyncPreparingDeferred.Preparing p ->
             (AsyncPreparingDeferred.InProgress (p, newCts), p, newCts)
@@ -51,10 +51,27 @@ module AsyncPreparingDeferred =
             let p = r |> preparingf
             (AsyncPreparingDeferred.InProgress (p, newCts), p, newCts)
 
+    /// If asyncDeferred is InProgress then cancels it.
+    let forceInProgressWithCancellation<'Preparing, 'Retrieved>
+        (prepearing)
+        (asyncDeferred: AsyncPreparingDeferred<'Preparing, 'Retrieved>)
+        : (AsyncPreparingDeferred<'Preparing, 'Retrieved> * 'Preparing * Cts)
+        =
+        let newCts = ctsPool.GetCts ()
+        match asyncDeferred with
+        | AsyncPreparingDeferred.InProgress (_, cts) ->
+            // CancellationTokenSource is disposed in a chooseRetrieved below
+            // last cts reference contains AsyncOperation Finish message
+            cts.Dispose()
+            (AsyncPreparingDeferred.InProgress (prepearing, newCts), prepearing, newCts)
+        | AsyncPreparingDeferred.Preparing _ ->
+            (AsyncPreparingDeferred.InProgress (prepearing, newCts), prepearing, newCts)
+        | AsyncPreparingDeferred.Retrieved _ ->
+            (AsyncPreparingDeferred.InProgress (prepearing, newCts), prepearing, newCts)
 
     /// Is operation cts is equal to in progress deferred cts then return Some with cts disposing
     /// or returns None with disposing operation cts.
-    let chooseRetrievedWithin<'Preparing,'Args,'Retrieved>
+    let chooseRetrieved<'Preparing,'Args,'Retrieved>
         (retrievedValue: 'Retrieved)
         (asyncOperationCts: Cts)
         (asyncDeferred: AsyncPreparingDeferred<'Preparing, 'Retrieved>)
@@ -70,7 +87,7 @@ module AsyncPreparingDeferred =
 
     /// Is operation cts is equal to in progress deferred cts then return Some with cts disposing.
     /// Or returns None with disposing operation cts.
-    let chooseRetrievedResultWithin<'Preparing,'Args,'Retrieved,'Error>
+    let chooseRetrievedResult<'Preparing,'Args,'Retrieved,'Error>
         (asyncOperationResult: Result<'Retrieved,'Error>)
         (asyncOperationCts: Cts)
         (asyncDeferred: AsyncPreparingDeferred<'Preparing, 'Retrieved>)

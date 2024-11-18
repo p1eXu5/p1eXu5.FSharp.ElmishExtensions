@@ -9,6 +9,7 @@ type Cts =
         Token: unit -> CancellationToken
         Cancel: unit -> unit
         Free: unit -> unit
+        Dispose: unit -> unit
     }
     interface IDisposable with
         member this.Dispose (): unit = 
@@ -123,6 +124,15 @@ module internal CtsPool =
             else
                 ()
 
+        let dispose index state =
+            if state.Using[index] = 1uy then
+                state.Pool[index].Dispose()
+                state.Pool[index] <- Unchecked.defaultof<_>
+                state.Using[index] <- 0uy
+                state.Cancelled[index] <- 0uy
+            else
+                ()
+
         let freeAll state =
             state.Pool
             |> Array.filter ((<>) null)
@@ -145,6 +155,7 @@ module internal CtsPool =
         | GetToken of AsyncReplyChannel<CancellationToken option> * int
         | Cancel of AsyncReplyChannel<unit> * int
         | Free of AsyncReplyChannel<unit> * int
+        | Dispose of AsyncReplyChannel<unit> * int
         | FreeAll
 
     let private body = (fun (inbox: MailboxProcessor<_>) ->
@@ -187,6 +198,11 @@ module internal CtsPool =
                     reply.Reply()
                     return! loop state
 
+                | Msg.Dispose (reply, ind) ->
+                    state |> State.dispose ind
+                    reply.Reply()
+                    return! loop state
+
                 | Msg.FreeAll ->
                     state |> State.freeAll |> ignore
                     return () // terminate!
@@ -212,5 +228,6 @@ module internal CtsPool =
                         | None -> raise (ObjectDisposedException("Cts already free."))
                     Cancel = fun () -> agent.PostAndReply (fun reply -> Msg.Cancel (reply, ind))
                     Free = fun () -> agent.PostAndReply (fun reply -> Msg.Free (reply, ind))
+                    Dispose = fun () -> agent.PostAndReply (fun reply -> Msg.Dispose (reply, ind))
                 }
         }
