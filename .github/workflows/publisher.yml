@@ -40,3 +40,6 @@ jobs:
     - name: Publish to GitHub packages
       run: |
         dotnet nuget push p1eXu5.FSharp.ElmishExtensions.*.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source "github" --skip-duplicate
+
+    - name: PushNuget
+      run: dotnet nuget push p1eXu5.FSharp.ElmishExtensions.*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{secrets.PUBLISH_TO_NUGET_ORG}} --skip-duplicate
