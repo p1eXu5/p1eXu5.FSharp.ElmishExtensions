@@ -1,8 +1,30 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Version>0.0.1</Version>
+    <AssemblyVersion>0.0.1</AssemblyVersion>
+    <FileVersion>0.0.1.0</FileVersion>
+    <PackageReleaseNotes></PackageReleaseNotes>
+    <Authors>Vladimir Likhatskiy</Authors>
+
+    <Description>
+        Contains helpers for working with Elmish and F# Async workflows, such as CtsPool, Deferred, and AsyncDeferred.
+    </Description>
+    <Copyright>2025 Vladimir Likhatskiy</Copyright>
+
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <RepositoryUrl>https://github.com/p1eXu5/DrugRoom.Shared</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageProjectUrl>https://github.com/p1eXu5/p1eXu5.FSharp.ElmishExtensions</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/p1eXu5/p1eXu5.FSharp.ElmishExtensions/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageTags>fsharp;helpers;wpf;elmish;</PackageTags>
+
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,7 +46,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Elmish" Version="4.2.0" />
-    <PackageReference Include="System.Buffers" Version="4.5.1" />
+    <PackageReference Include="Elmish" Version="4.3.0" />
+    <PackageReference Include="System.Buffers" Version="4.6.1" />
   </ItemGroup>
 </Project>

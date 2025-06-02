@@ -1,4 +1,4 @@
-module p1eXu5.FSharp.ElmishExtensions.Tests
+﻿module p1eXu5.FSharp.ElmishExtensions.Tests
 
 open NUnit.Framework
 open Faqt
@@ -104,7 +104,7 @@ let GetCts_PoolFilledOneCancelled_DoesNotChangeSize () =
     let size = ctsPool.Size ()
     let ctsArray =
         seq {
-            for i in 1 .. size do
+            for _ in 1 .. size do
                 ctsPool.GetCts ()
         }
         |> Seq.toList
