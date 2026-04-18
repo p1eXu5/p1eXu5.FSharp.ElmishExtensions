@@ -94,14 +94,15 @@ let GetCts_PoolFilledOneFreeGetCts_DoesNotChangeSize () =
 
     ctsArray[0].Free ()
 
-    let cts = ctsPool.GetCts ()
+    let _ = ctsPool.GetCts ()
 
     let size2 = ctsPool.Size ()
     %size2.Should().Be(size)
 
 [<Test>]
-let GetCts_PoolFilledOneCancelled_DoesNotChangeSize () =
+let GetCts_PoolFilledOneCancelled_ChangesSize () =
     let size = ctsPool.Size ()
+    do ()
     let ctsArray =
         seq {
             for _ in 1 .. size do
@@ -111,7 +112,26 @@ let GetCts_PoolFilledOneCancelled_DoesNotChangeSize () =
 
     ctsArray[0].Cancel ()
 
-    let cts = ctsPool.GetCts ()
+    let _ = ctsPool.GetCts ()
+
+    let size2 = ctsPool.Size ()
+    %size2.Should().BeGreaterThan(size)
+
+[<Test>]
+let GetCts_PoolFilledOneCancelledAndDisposed_DoesNotChangeSize () =
+    let size = ctsPool.Size ()
+    do ()
+    let ctsArray =
+        seq {
+            for _ in 1 .. size do
+                ctsPool.GetCts ()
+        }
+        |> Seq.toList
+
+    ctsArray[0].Cancel ()
+    ctsArray[0].Dispose ()
+
+    let _ = ctsPool.GetCts ()
 
     let size2 = ctsPool.Size ()
     %size2.Should().Be(size)
