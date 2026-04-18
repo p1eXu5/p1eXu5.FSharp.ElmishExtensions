@@ -1,0 +1,15 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".github/workflows/publisher.yml" />
+    <File Path="build.fsx" />
+    <File Path="fake.cmd" />
+    <File Path="README.md" />
+    <File Path="RELEASE_NOTES.md" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/p1eXu5.FSharp.ElmishExtensions/p1eXu5.FSharp.ElmishExtensions.fsproj" />
+  </Folder>
+  <Folder Name="/test/">
+    <Project Path="test/p1eXu5.FSharp.ElmishExtensions.Tests/p1eXu5.FSharp.ElmishExtensions.Tests.fsproj" />
+  </Folder>
+</Solution>
