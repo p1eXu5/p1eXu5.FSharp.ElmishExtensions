@@ -39,14 +39,13 @@ module internal CtsPool =
         let private initSize = 8
 
         let init () =
-
             let pool = ArrayPool<CancellationTokenSource>.Shared.Rent(initSize)
             Array.fill pool 0 pool.Length Unchecked.defaultof<_>
 
-            let usingFlags = ArrayPool<byte>.Shared.Rent(initSize)
+            let usingFlags = ArrayPool<byte>.Shared.Rent(pool.Length)
             Array.fill usingFlags 0 usingFlags.Length 0uy
 
-            let cancelled = ArrayPool<byte>.Shared.Rent(initSize)
+            let cancelled = ArrayPool<byte>.Shared.Rent(pool.Length)
             Array.fill cancelled 0 cancelled.Length 0uy
 
             if pool.Length <> usingFlags.Length || usingFlags.Length <> cancelled.Length then
@@ -61,7 +60,8 @@ module internal CtsPool =
         let inUse state =
             state.Using |> Array.sum |> int
 
-        let tryIncrease (state: State) =
+        let tryIncreasePool (state: State) =
+
             if (state |> inUse) = state.Pool.Length then
                 let pool' = ArrayPool<CancellationTokenSource>.Shared.Rent(state.Pool.Length + 8)
                 Array.Copy(state.Pool, pool', state.Pool.Length)
@@ -174,7 +174,7 @@ module internal CtsPool =
                 | Msg.GetCts reply ->
                     return! loop (
                         state
-                        |> State.tryIncrease
+                        |> State.tryIncreasePool
                         |> State.getCtsIndex
                         |> fun (s, i) ->
                             reply.Reply i
