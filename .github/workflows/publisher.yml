@@ -2,10 +2,17 @@
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - '**'
   pull_request:
-    branches: [ master ]
+    branches:
+      - '**'
+  workflow_dispatch: # To enable a workflow to be triggered manually
     
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   # Set the job key. The key is displayed as the job name
   # when a job name is not provided
@@ -17,29 +24,22 @@ jobs:
     steps:
     # Checks out a copy of your repository on the ubuntu-latest machine
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v6
       
     - name: Setup .NET Core
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v5
       with:
-        dotnet-version: '9.0.x'
-        
-    - name: Install dependencies
-      run: dotnet restore
-      
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
+        dotnet-version: '10.0.x'
+        cache: true
+        cache-dependency-path: |
+          **/*.fsproj
 
-    - name: Pack
-      run: |
-        dotnet pack --no-build --configuration Release src/p1eXu5.FSharp.ElmishExtensions/p1eXu5.FSharp.ElmishExtensions.fsproj --output .
-      
-    - name: Prep packages
-      run: dotnet nuget add source --username p1eXu5 --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/p1eXu5/index.json"
+    # Build only when pushing to master
+    - name: Fake default target (master push)
+      if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+      run: dotnet fsi build.fsx -e FAKE_DETAILED_ERRORS=true -e GITHUB_NUGET_TOKEN=${{ secrets.PUBLISH_TO_NUGET_ORG }}
 
-    - name: Publish to GitHub packages
-      run: |
-        dotnet nuget push p1eXu5.FSharp.ElmishExtensions.*.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source "github" --skip-duplicate
-
-    - name: PushNuget
-      run: dotnet nuget push p1eXu5.FSharp.ElmishExtensions.*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{secrets.PUBLISH_TO_NUGET_ORG}} --skip-duplicate
+    # Test for PRs and non-master branches
+    - name: Fake Test target (PRs and non-master)
+      if: ${{ !(github.event_name == 'push' && github.ref == 'refs/heads/master') }}
+      run: dotnet fsi build.fsx -e FAKE_DETAILED_ERRORS=true -e GITHUB_NUGET_TOKEN=${{ secrets.PUBLISH_TO_NUGET_ORG }} -t Test
