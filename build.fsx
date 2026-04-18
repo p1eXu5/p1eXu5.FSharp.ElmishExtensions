@@ -204,16 +204,10 @@ Target.create "All" ignore
 
 let isGitHubActions = Environment.hasEnvironVar "GITHUB_ACTIONS"
 
-"GetVersion"
-    ==> "Clean"
-
-"Clean"
-    =?> ("CheckReleaseSecrets", isGitHubActions)
-
 "CheckReleaseSecrets"
-    ?=> "Build"
-
-"Clean"
+    ==> "GetVersion"
+    ==> "Clean"
+    ==> "Restore"
     ==> "Build"
     ==> "Test"
     ==> "Pack"
