@@ -1,52 +1,70 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Version>0.0.1</Version>
-    <AssemblyVersion>0.0.1</AssemblyVersion>
-    <FileVersion>0.0.1.0</FileVersion>
-    <PackageReleaseNotes></PackageReleaseNotes>
-    <Authors>Vladimir Likhatskiy</Authors>
+    <PropertyGroup>
+        <TargetFrameworks>net8.0;net9.0;net10.0;</TargetFrameworks>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        
+        <Version>1.0.0</Version>
+        <AssemblyVersion>1.0.0</AssemblyVersion>
+        <FileVersion>1.0.0.0</FileVersion>
+        <Authors>Vladimir Likhatskiy (p1eXu5)</Authors>
 
-    <Description>
-        Contains helpers for working with Elmish and F# Async workflows, such as CtsPool, Deferred, and AsyncDeferred.
-    </Description>
-    <Copyright>2025 Vladimir Likhatskiy</Copyright>
+        <Description>
+            Contains helpers for working with Elmish and F# Async workflows, such as CtsPool, Deferred, and AsyncDeferred.
+        </Description>
+        <Copyright>© 2025 Vladimir Likhatskiy (p1eXu5). All rights reserved.</Copyright>
 
-    <NeutralLanguage>en-US</NeutralLanguage>
-    <RepositoryUrl>https://github.com/p1eXu5/DrugRoom.Shared</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <PackageProjectUrl>https://github.com/p1eXu5/p1eXu5.FSharp.ElmishExtensions</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/p1eXu5/p1eXu5.FSharp.ElmishExtensions/blob/master/LICENSE</PackageLicenseUrl>
-    <PackageTags>fsharp;helpers;wpf;elmish;</PackageTags>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
 
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-  </PropertyGroup>
+        <NeutralLanguage>en-US</NeutralLanguage>
+        <RepositoryUrl>https://github.com/p1eXu5/p1eXu5.FSharp.ElmishExtensions</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageProjectUrl>https://github.com/p1eXu5/p1eXu5.FSharp.ElmishExtensions</PackageProjectUrl>
+        <PackageLicenseUrl>https://github.com/p1eXu5/p1eXu5.FSharp.ElmishExtensions/blob/master/LICENSE.txt</PackageLicenseUrl>
+        <PackageTags>fsharp;helpers;wpf;elmish;</PackageTags>
 
-  <ItemGroup>
-    <Compile Include="CtsPool.fs" />
-    <Compile Include="InternalCtsPool.fs" />
-    <Compile Include="Helpers.fs" />
-    <Compile Include="Operation.fs" />
-    <Compile Include="AsyncOperation.fs" />
-    <Compile Include="Deferred.fs" />
-    <Compile Include="PreparingDeferred.fs" />
-    <Compile Include="AsyncDeferredState.fs" />
-    <Compile Include="AsyncDeferred.fs" />
-    <Compile Include="AsyncPreparingDeferred.fs" />
-    <Compile Include="AsyncPreparingDeferredState.fs" />
-  </ItemGroup>
+        <DebugType>portable</DebugType>
+        <DebugSymbols>true</DebugSymbols>
+        
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
 
-  <ItemGroup>
-    <InternalsVisibleTo Include="$(AssemblyName).Tests" />
-  </ItemGroup>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
 
-  <ItemGroup>
-    <PackageReference Include="Elmish" Version="4.3.0" />
-    <PackageReference Include="System.Buffers" Version="4.6.1" />
-  </ItemGroup>
+        <Deterministic>true</Deterministic>
+        <ContinuousIntegrationBuild Condition="'$(CI)' == 'true'">true</ContinuousIntegrationBuild>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <!-- Pack the README from repo root into the nuget package -->
+        <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Include="CtsPool.fs" />
+        <Compile Include="InternalCtsPool.fs" />
+        <Compile Include="Helpers.fs" />
+        <Compile Include="Operation.fs" />
+        <Compile Include="AsyncOperation.fs" />
+        <Compile Include="Deferred.fs" />
+        <Compile Include="PreparingDeferred.fs" />
+        <Compile Include="AsyncDeferredState.fs" />
+        <Compile Include="AsyncDeferred.fs" />
+        <Compile Include="AsyncPreparingDeferred.fs" />
+        <Compile Include="AsyncPreparingDeferredState.fs" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="$(AssemblyName).Tests" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Elmish" Version="5.0.2" />
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.202">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+
+    </ItemGroup>
 </Project>
