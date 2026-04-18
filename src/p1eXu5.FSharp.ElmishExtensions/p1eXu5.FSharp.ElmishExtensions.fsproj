@@ -7,12 +7,16 @@
         <Version>1.0.0</Version>
         <AssemblyVersion>1.0.0</AssemblyVersion>
         <FileVersion>1.0.0.0</FileVersion>
+        <InformationalVersion>1.0.0</InformationalVersion>
+        
         <Authors>Vladimir Likhatskiy (p1eXu5)</Authors>
+        <Company>Vladimir Likhatskiy (p1eXu5)</Company>
+        <Copyright>© 2025 Vladimir Likhatskiy (p1eXu5). All rights reserved.</Copyright>
 
+        <Title>p1eXu5 Elmish Extensions</Title>
         <Description>
             Contains helpers for working with Elmish and F# Async workflows, such as CtsPool, Deferred, and AsyncDeferred.
         </Description>
-        <Copyright>© 2025 Vladimir Likhatskiy (p1eXu5). All rights reserved.</Copyright>
 
         <PackageReadmeFile>README.md</PackageReadmeFile>
 
@@ -20,8 +24,8 @@
         <RepositoryUrl>https://github.com/p1eXu5/p1eXu5.FSharp.ElmishExtensions</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <PackageProjectUrl>https://github.com/p1eXu5/p1eXu5.FSharp.ElmishExtensions</PackageProjectUrl>
-        <PackageLicenseUrl>https://github.com/p1eXu5/p1eXu5.FSharp.ElmishExtensions/blob/master/LICENSE.txt</PackageLicenseUrl>
-        <PackageTags>fsharp;helpers;wpf;elmish;</PackageTags>
+        <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+        <PackageTags>fsharp;f#;helpers;wpf;elmish;extensions;</PackageTags>
 
         <DebugType>portable</DebugType>
         <DebugSymbols>true</DebugSymbols>
@@ -39,6 +43,7 @@
     <ItemGroup>
         <!-- Pack the README from repo root into the nuget package -->
         <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+        <None Include="..\..\LICENSE.txt" Pack="true" PackagePath="\" />
     </ItemGroup>
 
     <ItemGroup>
