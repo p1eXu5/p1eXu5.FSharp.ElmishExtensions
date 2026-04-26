@@ -4,10 +4,10 @@
         <TargetFrameworks>net8.0;net9.0;net10.0;</TargetFrameworks>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         
-        <Version>1.0.0</Version>
-        <AssemblyVersion>1.0.0</AssemblyVersion>
-        <FileVersion>1.0.0.0</FileVersion>
-        <InformationalVersion>1.0.0</InformationalVersion>
+        <Version>1.0.1</Version>
+        <AssemblyVersion>1.0.1</AssemblyVersion>
+        <FileVersion>1.0.1.0</FileVersion>
+        <InformationalVersion>1.0.1</InformationalVersion>
         
         <Authors>Vladimir Likhatskiy (p1eXu5)</Authors>
         <Company>Vladimir Likhatskiy (p1eXu5)</Company>
@@ -65,7 +65,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Elmish" Version="5.0.2" />
+        <PackageReference Include="Elmish" Version="[4.0.1, 5.99]" />
         <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.202">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
