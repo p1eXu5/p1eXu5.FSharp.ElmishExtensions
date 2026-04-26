@@ -1,7 +1,7 @@
 ﻿p1eXu5.FSharp.ElmishExtensions
 ==============================
 
-[![NuGet](https://img.shields.io/badge/nuget-1.0.0-green)](https://www.nuget.org/packages/p1eXu5.FSharp.ElmishExtensions/1.0.0)
+[![NuGet](https://img.shields.io/badge/nuget-1.0.1-green)](https://www.nuget.org/packages/p1eXu5.FSharp.ElmishExtensions/1.0.1)
 
 A comprehensive F# library providing helpful utilities and extensions for working with [Elmish](https://elmish.io/) and F# async workflows. This library includes powerful abstractions for managing asynchronous operations, cancellation token pooling, and deferred computations in WPF and other applications.
 
