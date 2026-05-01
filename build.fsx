@@ -248,14 +248,14 @@ let isGitHubActions = Environment.hasEnvironVar "GITHUB_ACTIONS"
     ==> "PublishOnNugetOrg"
     ==> "All"
 
-"Pack"
-    =?> ("PublishOnGithub", isGitHubActions)
+//"Pack"
+//    =?> ("PublishOnGithub", isGitHubActions)
 
-"AddGithubNugetSource"
-    ==> "PublishOnGithub"
+//"AddGithubNugetSource"
+//    ==> "PublishOnGithub"
 
-"PublishOnGithub"
-    ?=> "All"
+//"PublishOnGithub"
+//    ?=> "All"
 
 let ctx = Target.WithContext.runOrDefaultWithArguments "All"
 Target.updateBuildStatus ctx

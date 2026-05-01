@@ -1,5 +1,8 @@
 # Release Notes
 
+## 1.0.3 - 2026-05-01
+* ENHANCEMENT: Adds Module bindings - mapIntent, mapHandleIntent
+
 ## 1.0.2 - 2026-04-17
 * ENHANCEMENT: Adds summaries
 
