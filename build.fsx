@@ -74,11 +74,13 @@ module Secrets =
         secrets <- secret :: secrets
         secret
 
-    //let githubReleaseUser = getFromVaultOrEnvOrDefault "GITHUB_ACTOR" "p1eXu5"
-    //let gitName = getFromVaultOrEnvOrDefault "REPOSITORY_NAME_GITHUB" "p1eXu5.FSharp.ElmishExtensions"
+    let [<Literal>] GITHUB_NUGET_SOURCE = "github"
 
-    //let githubToken = releaseSecret "<githubtoken>" "GITHUB_TOKEN"
-    let githubNugetToken = releaseSecret "<githubtoken>" "GITHUB_NUGET_TOKEN"
+    let githubReleaseUser = getFromVaultOrEnvOrDefault "GITHUB_ACTOR" "p1eXu5"
+    let gitName = getFromVaultOrEnvOrDefault "REPOSITORY_NAME_GITHUB" "p1eXu5.FSharp.ElmishExtensions"
+
+    let githubToken = releaseSecret "<githubtoken>" "GITHUB_TOKEN"
+    let nugetOrgToken = releaseSecret "<githubtoken>" "GITHUB_NUGET_TOKEN"
 
 module FakeVars =
     let [<Literal>] versionString = "VersionString"
@@ -182,14 +184,46 @@ Target.create "Pack" (fun _ ->
         }) Project.fsprojPath
 )
 
-// Publish target
-Target.create "Publish" (fun _ ->
+// dotnet nuget add source --username p1eXu5 --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/p1eXu5/index.json"
+Target.create "AddGithubNugetSource" (fun _ ->
+    let result =
+        DotNet.exec id "nuget" (
+            sprintf
+                "add source --username %s --password %s --store-password-in-clear-text --name %s https://nuget.pkg.github.com/p1eXu5/index.json"
+                Secrets.githubReleaseUser
+                Secrets.githubToken.Value
+                Secrets.GITHUB_NUGET_SOURCE
+        )
+    
+    if not result.OK then
+        failwithf "dotnet nuget failed with errors: %A" result.Errors
+)
+
+// Publish on nuget.org target
+Target.create "PublishOnNugetOrg" (fun _ ->
     DotNet.nugetPush (fun opts ->
         { opts with
             PushParams =
                 { opts.PushParams with
-                    ApiKey = Secrets.githubNugetToken.Value |> Some
+                    ApiKey = Secrets.nugetOrgToken.Value |> Some
                     Source = "https://api.nuget.org/v3/index.json" |> Some
+                }
+            Common =
+                { opts.Common with
+                    WorkingDirectory = Project.nugetsFolderPath
+                }
+            
+        }) Project.nugetPath
+)
+
+// Publish target
+Target.create "PublishOnGithub" (fun _ ->
+    DotNet.nugetPush (fun opts ->
+        { opts with
+            PushParams =
+                { opts.PushParams with
+                    ApiKey = Secrets.githubToken.Value |> Some
+                    Source = Secrets.GITHUB_NUGET_SOURCE |> Some
                 }
             Common =
                 { opts.Common with
@@ -211,8 +245,17 @@ let isGitHubActions = Environment.hasEnvironVar "GITHUB_ACTIONS"
     ==> "Build"
     ==> "Test"
     ==> "Pack"
-    ==> "Publish"
+    ==> "PublishOnNugetOrg"
     ==> "All"
+
+"Pack"
+    =?> ("PublishOnGithub", isGitHubActions)
+
+"AddGithubNugetSource"
+    ==> "PublishOnGithub"
+
+"PublishOnGithub"
+    ?=> "All"
 
 let ctx = Target.WithContext.runOrDefaultWithArguments "All"
 Target.updateBuildStatus ctx
