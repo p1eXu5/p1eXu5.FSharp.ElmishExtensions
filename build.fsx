@@ -80,7 +80,7 @@ module Secrets =
     let gitName = getFromVaultOrEnvOrDefault "REPOSITORY_NAME_GITHUB" "p1eXu5.FSharp.ElmishExtensions"
 
     let githubToken = releaseSecret "<githubtoken>" "GITHUB_TOKEN"
-    let nugetOrgToken = releaseSecret "<githubtoken>" "GITHUB_NUGET_TOKEN"
+    let nugetOrgToken = releaseSecret "<githubtoken>" "PUBLISH_TO_NUGET_ORG"
 
 module FakeVars =
     let [<Literal>] versionString = "VersionString"
