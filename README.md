@@ -157,7 +157,7 @@ AsyncDeferred.map f asyncDeferred
 AsyncDeferred.mapUpdate f asyncDeferred
 ```
 
-### Model Helpers
+### Model module
 Functional utilities for working with model fields.
 
 ```fsharp
@@ -165,7 +165,7 @@ Functional utilities for working with model fields.
 Model.map get set f model
 ```
 
-### List Helpers
+### List module
 Utilities for updating specific elements in lists.
 
 ```fsharp
@@ -182,7 +182,7 @@ List.mapFirstCmdIntent predicate updatef defaultIntent modelList
 List.mapFirstIntent predicate updatef defaultIntent modelList
 ```
 
-### General Helpers
+### Helpers module
 Simple utility functions.
 
 ```fsharp

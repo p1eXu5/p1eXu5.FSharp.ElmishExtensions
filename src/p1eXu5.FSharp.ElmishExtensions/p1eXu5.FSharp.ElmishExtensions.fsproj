@@ -4,10 +4,10 @@
         <TargetFrameworks>net8.0;net9.0;net10.0;</TargetFrameworks>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         
-        <Version>1.0.1</Version>
-        <AssemblyVersion>1.0.1</AssemblyVersion>
-        <FileVersion>1.0.1.0</FileVersion>
-        <InformationalVersion>1.0.1</InformationalVersion>
+        <Version>1.0.2</Version>
+        <AssemblyVersion>1.0.2</AssemblyVersion>
+        <FileVersion>1.0.2.0</FileVersion>
+        <InformationalVersion>1.0.2</InformationalVersion>
         
         <Authors>Vladimir Likhatskiy (p1eXu5)</Authors>
         <Company>Vladimir Likhatskiy (p1eXu5)</Company>
@@ -50,6 +50,9 @@
         <Compile Include="CtsPool.fs" />
         <Compile Include="InternalCtsPool.fs" />
         <Compile Include="Helpers.fs" />
+        <Compile Include="Model.fs" />
+        <Compile Include="List.fs" />
+        <Compile Include="Reflection.fs" />
         <Compile Include="Operation.fs" />
         <Compile Include="AsyncOperation.fs" />
         <Compile Include="Deferred.fs" />
