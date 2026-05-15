@@ -1,5 +1,8 @@
 # Release Notes
 
+## 1.0.4 - 2026-05-15
+* ENHANCEMENT: Adds List bindings - tryMapFirst, tryMapFirstCmd, tryMapFirstCmdIntent, mapFirstIntentf, tryMapFirstIntent
+
 ## 1.0.3 - 2026-05-01
 * ENHANCEMENT: Adds Module bindings - mapIntent, mapHandleIntent
 

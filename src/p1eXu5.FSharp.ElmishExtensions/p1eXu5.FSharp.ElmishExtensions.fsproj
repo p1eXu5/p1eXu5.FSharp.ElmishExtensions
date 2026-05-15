@@ -4,10 +4,10 @@
         <TargetFrameworks>net8.0;net9.0;net10.0;</TargetFrameworks>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         
-        <Version>1.0.3</Version>
-        <AssemblyVersion>1.0.3</AssemblyVersion>
-        <FileVersion>1.0.3.0</FileVersion>
-        <InformationalVersion>1.0.3</InformationalVersion>
+        <Version>1.0.4</Version>
+        <AssemblyVersion>1.0.4</AssemblyVersion>
+        <FileVersion>1.0.4.0</FileVersion>
+        <InformationalVersion>1.0.4</InformationalVersion>
         
         <Authors>Vladimir Likhatskiy (p1eXu5)</Authors>
         <Company>Vladimir Likhatskiy (p1eXu5)</Company>
