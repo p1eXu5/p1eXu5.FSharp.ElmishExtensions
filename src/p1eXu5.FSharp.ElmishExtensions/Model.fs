@@ -33,3 +33,32 @@ module Model =
         let model' = sm |> flip set model
         model' |> handleIntentf intent
 
+    open Elmish
+
+    /// Maps a submodel and returns both the updated submodel and an subcommand.
+    /// Applies a transformation function that produces both a submodel and an subcommand value.
+    let inline mapIdCmd<'model,'submodel,'cmd,'subMsg,'id>
+        (get: 'model -> 'submodel)
+        (set: 'submodel -> 'model -> 'model)
+        (f: 'submodel -> 'submodel * Cmd<'subMsg>)
+        (getId: 'submodel -> 'id)
+        (mapSubMsg: 'id * 'subMsg -> 'cmd)
+        model
+        =
+        let (sm, cmd) = model |> get |> f
+        let model' = sm |> flip set model
+        model', Cmd.map (fun smsg -> mapSubMsg (getId sm, smsg)) cmd
+
+    /// Maps a submodel and returns both the updated submodel and an subcommand.
+    /// Applies a transformation function that produces both a submodel and an subcommand value.
+    let inline mapCmd<'model,'submodel,'cmd,'subMsg>
+        (get: 'model -> 'submodel)
+        (set: 'submodel -> 'model -> 'model)
+        (f: 'submodel -> 'submodel * Cmd<'subMsg>)
+        (mapSubMsg: 'subMsg -> 'cmd)
+        model
+        =
+        let (sm, cmd) = model |> get |> f
+        let model' = sm |> flip set model
+        model', Cmd.map mapSubMsg cmd
+

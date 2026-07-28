@@ -1,5 +1,8 @@
 # Release Notes
 
+## 1.0.5 - 2026-07-28
+* ENHANCEMENT: Adds Model bindings - mapIdCmd, mapCmd
+
 ## 1.0.4 - 2026-05-15
 * ENHANCEMENT: Adds List bindings - tryMapFirst, tryMapFirstCmd, tryMapFirstCmdIntent, mapFirstIntentf, tryMapFirstIntent
 
