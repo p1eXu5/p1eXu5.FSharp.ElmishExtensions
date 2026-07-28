@@ -1,5 +1,8 @@
 # Release Notes
 
+## 1.0.6 - 2026-07-28
+* FIX: Downgrade Elmish to [4.0.1, 4.99.0]
+
 ## 1.0.5 - 2026-07-28
 * ENHANCEMENT: Adds Model bindings - mapIdCmd, mapCmd
 
