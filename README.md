@@ -272,3 +272,22 @@ module Bindings =
                 |> Binding.cmd (AsyncOperation.startUnit Msg.LoadStatisticList)
         ]
 ```
+
+### Model Helpers
+
+```fs
+let update (msg: FooModel.Msg) (model: FooModel) =
+    match msg with
+    | Msg.SubModelMsg (id, smsg) ->
+        model
+        |> Model.mapCmd
+            _.SubModelList
+            withSubModelList
+            (fun l ->
+                l
+                |> List.mapFirstCmd
+                    (_.Id >> (=) id)
+                    (SubModel.Program.update smsg)
+            )
+            (fun subMsg -> Msg.SubModelMsg (id, subMsg))
+```
